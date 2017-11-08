@@ -1,17 +1,40 @@
 <template>
     <div>
-    <div class="backBt"  @click.prenvet="goBack">
+      <div class="backBt"  @click.prenvet="goBack">
          <i class="fa fa-angle-left"></i>
       </div>
-    <ul>
-        <li class="page-lazyload-listitem" v-for="item in list">
-         <img v-lazy="item" class="page-lazyload-image">
-      </li>
-    </ul>
+      <ul>
+          <li class="page-lazyload-listitem" v-for="item in list">
+           <img v-lazy="item" class="page-lazyload-image">
+        </li>
+      </ul>
+      <div class="footfix">
+         <div class="top">
+            <p class="name">namenamenamename</p>
+            <div class="tag">
+              <span>adfadfs</span>
+              <span>adfadfs</span>
+            </div>      
+         </div>
+         <div class="bottom clearfix">
+            <div class="left" @click="scrollDetail">详情 <i class="fa fa-angle-right"></i></div>
+            <div class="right">点赞 1</div>
+            <div class="right">浏览 1</div>
+         </div>
+      </div>
     </div>
 </template>
 
 <script type="ecmascript-6">
+ function getScrollTop() {  
+            var scrollPos;  
+            if (window.pageYOffset) {  
+            scrollPos = window.pageYOffset; }  
+            else if (document.compatMode && document.compatMode != 'BackCompat')  
+            { scrollPos = document.documentElement.scrollTop; }  
+            else if (document.body) { scrollPos = document.body.scrollTop; }   
+            return scrollPos;   
+    }  
 import { Lazyload } from 'mint-ui';
     export default {
     name: '',
@@ -30,9 +53,20 @@ import { Lazyload } from 'mint-ui';
     created:function(){
       
     },
+    mounted() {
+         window.addEventListener('scroll', this.changscroll)
+    },
     methods:{
       goBack(){
          window.history.go(-1);
+      },
+      changscroll(){
+         var top = getScrollTop();
+         console.log(top);
+      },
+      scrollDetail(){
+          console.log("c");
+          document.body.scrollTop = 0;
       }
     }
   }
@@ -42,7 +76,9 @@ import { Lazyload } from 'mint-ui';
 @rem: 23.45rem;
   img {
     display: block;
-    width: 100%;
+    width: 375/@rem;
+    height: 375/@rem;
+    margin-bottom: 5/@rem;
   }
   .backBt {
      width: 35px;
@@ -59,4 +95,33 @@ import { Lazyload } from 'mint-ui';
       font-size: 20px;
      }
   }  
+  .footfix {
+     position:fixed;
+     left: 0;
+     bottom: 0;
+     background-color: #fff;
+     width: 100%;
+     color:#545352;
+     .top{
+        padding:10/@rem 20/@rem 10/@rem 20/@rem;
+       .name{margin-bottom: 10/@rem;}
+       .tag {
+          span {
+                 display: inline-block; 
+                 padding: 2/@rem 15/@rem;
+                 background: red;
+                 color:#fff;
+                 border-radius:8/@rem;}
+                }
+     }
+     .bottom {
+       border-top: 1px solid #999;
+       height: 40/@rem;
+       line-height: 40/@rem;
+       div {
+         width: 80/@rem;
+         text-align: center;
+       }
+     }
+  }
 </style>

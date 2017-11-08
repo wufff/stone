@@ -1,26 +1,25 @@
 <template>
-  <div >
-     active
+  <div>
+   active
+   <foot></foot>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-  export default {
-    name: 'name',
-
-    data(){
-      return {
-      	title:""
-      }
-    },
-    methods:{
-    	show(){
-    		
-    	}
+<script>
+import foot from '@/components/share/foot';
+export default {
+  name: 'hello',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App'
     }
-
+  },
+   components: {
+      foot
   }
+}
 </script>
+
 
 <style scoped>
 

@@ -1,23 +1,26 @@
 <template>
-  <div class="hello">
-    <ul>
-      <li><router-link to="/active">123</router-link></li>
-    </ul>
+  <div>
+   about
+   <foot></foot>
   </div>
 </template>
 
 <script>
+import foot from '@/components/share/foot';
 export default {
   name: 'hello',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+   components: {
+      foot
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 
 </style>

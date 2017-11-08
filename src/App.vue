@@ -11,9 +11,8 @@ export default {
 </script>
 
 <style lang="less">
-@import '~vux/src/styles/reset.less';
-
-body {
-  background-color: #fbf9fe;
-}
+@import '../static/style/reset.less';
+@import '../static/style/Cvux.less';
+@import '../static/style/style-font.css';
+@import '../static/style/skin.less';
 </style>

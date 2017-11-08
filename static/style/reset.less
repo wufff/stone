@@ -1,0 +1,95 @@
+@rem: 23.45rem;
+body, h1, h2, h3, h4, h5, h6, p, dl, dd, span, i, div{margin: 0;padding: 0;-webkit-text-size-adjust: 100%;}
+*{box-sizing:border-box;}
+ul,ol {margin: 0;padding: 0;list-style: none;}
+a{text-decoration: none;}
+a,input,button {-webkit-tap-highlight-color: rgba(0, 0, 0, 0);-webkit-appearance: none;outline: none;}
+*:not(input,textarea) {-webkit-touch-callout: none;-webkit-user-select: none;}
+/*去掉textarea ios下阴影*/
+textarea{box-shadow:0px 0px 0px rgba(0,0,0,0);-webkit-appearance:none;border-radius:0;outline: none;}
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+input::placeholder {color: #ddd;}
+textarea, textarea::placeholder {color: #ddd; font-family:'微软雅黑','microsoft yahei', Arial, sans-serif;}
+html {
+	position: relative;
+}
+html, body {
+    height: 100%;
+    width: 100%; 
+    color: #999;
+}
+
+body{
+  font-family:'微软雅黑','microsoft yahei', Arial, sans-serif;
+  background-color:#f0f0f0;
+  font-size:16/@rem;
+}
+
+a{ display: block; color: #999;}
+
+#app{width:100%; height:100%;}
+
+.left {float: left;} .right{float: right;}
+
+h5{font-size: 14/@rem; color: #545352;}
+
+h4{font-size: 16/@rem; color: #545352;}
+
+.price{
+	color: red;
+	font-weight: bold;
+}
+
+/*-------------------publick-------------------------*/
+.pu_header {
+       height: 50/@rem;
+       line-height: 52/@rem;
+       position: fixed;
+      left: 0 ;
+      right:  0;
+      z-index: 500;
+      background-color: #fff;
+      border-bottom: 1px solid #eee;
+      padding-left: 50/@rem;
+      color: #999;
+       span {
+          position: absolute;
+          display: block;
+          height: 100%;
+          width: 40/@rem;
+          left: 0;
+          font-size: 28/@rem;
+          text-align: center;
+          line-height: 49/@rem;
+         }
+      .right {
+         padding-left:15/@rem;
+         padding-right:25/@rem;
+         line-height: 53/@rem;
+
+         span.icon {
+            font-size: 22/@rem;
+         }
+      }   
+}
+
+
+.pu_content{
+   padding-top: 58/@rem;
+   padding-bottom: 53/@rem;
+}   
+
+.spinnerWap {
+    margin: 0 auto;
+    text-align:  center;
+    background-color: #eee;
+    padding: 0 3/@rem;
+    color: #fff;
+    height: 35/@rem;
+    padding-top: 7/@rem;
+    color: #fff;
+    .jz{
+      margin-left: 10/@rem;
+      color: #999;
+    }
+ }

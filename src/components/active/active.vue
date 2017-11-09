@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import foot from '@/components/share/foot';
+import foot from '@/components/aashare/foot';
 export default {
   name: 'hello',
   data () {

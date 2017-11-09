@@ -1,9 +1,14 @@
 <template>
   <div>
   <div class="clearfix" id="header">
-          <span class="icon-分类二 classfiyIcon" @click.prevent="goClassfiy"></span>
-          <span class="cart"  @click.prevent="goCart">咨询</span>
-         
+          <div class="classfiyIcon" @click.prevent="goClassfiy">
+            <span class="icon-分类二 icon"></span>
+            <p class="text">分类</p>
+          </div>
+          <div class="cart" @click.prevent="goSeek">
+            <span class="icon-咨询 icon"></span>
+            <p class="text">咨询</p>
+          </div>
          <div class="inputBox" @click.prevent="goReach">
             <span class="icon-放大镜 icon"></span>
             <span style="color: #ddd" >约152598种商品</span>
@@ -15,9 +20,9 @@
                  <mt-swipe-item v-for="(item,index) in 3" :key="index">{{item}}</mt-swipe-item>
               </mt-swipe>
         </div>
-        <div class="hot_wrap">
+       <!--  <div class="hot_wrap">
             <hot :params="hotParams"></hot>
-         </div>
+         </div> -->
   </div>
 
    <foot></foot>
@@ -25,8 +30,9 @@
 </template>
 
 <script>
-import foot from '@/components/share/foot';
-import hot from  '@/components/share/hotList';
+import api from '@/api';
+import foot from '@/components/aashare/foot';
+import hot from  '@/components/aashare/hotList';
 export default {
   name: 'hello',
   data () {
@@ -39,6 +45,16 @@ export default {
     }
   },
 
+   created:function(){
+      api.ajaxLaoding('',
+         "Home/Index",{}
+        ).then(res=>{
+          console.log(res);
+        }).catch(()=>{
+          console.log("失败");
+        });
+    },
+
   methods:{
       goClassfiy(){
          this.$router.push({path:"/classfiy"});
@@ -46,6 +62,9 @@ export default {
       goReach(){
         this.$router.push({path:"/search"});
       },
+      goSeek(){
+        this.$router.push({path:"/seek"});
+      }
   },
 
    components: {
@@ -67,32 +86,47 @@ export default {
        width: 100%;
        background-color: #fff;
        border-bottom: 1px solid #ddd; 
-       height: 40/@rem;
+       height: 43/@rem;
        .left {
          padding-top: 2/@rem;
          width: 28/@rem;
          text-align: center;
         } 
 
-        span.classfiyIcon {
-          font-size: 22/@rem;
+        div.classfiyIcon {
           position: absolute;
           left:13/@rem;
-          top:9/@rem;
+          top:5/@rem;
+          color: #04BE02;
+          span.icon {
+             font-size: 20/@rem;
+          }
+          p.text{
+             font-size: 10/@rem;
+             position: relative;
+             top:-3/@rem;
+          }
         }
 
-        span.cart {
-          /* font-size: 22/@rem;*/
-          font-size: 13/@rem;
+        div.cart {
           position: absolute;
           right:13/@rem;
-          top:9/@rem;
-          
+          top:5/@rem;
+          color: #999;
+          span.icon {
+             font-size: 20/@rem;
+          }
+          p.text{
+             font-size: 10/@rem;
+             position: relative;
+             top:-3/@rem;
+          }
         }
+
       
         .inputBox {
          background-color: #eee;
-         padding: 2/@rem 5/@rem 2/@rem 5/@rem;
+         padding: 4/@rem 5/@rem 4/@rem 5/@rem;
           position: absolute;
           left:48/@rem;
           top:7/@rem;

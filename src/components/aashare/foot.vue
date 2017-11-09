@@ -1,20 +1,20 @@
 <template>
   <div class="foot" id="foot">
        <router-link to="/discory">
-              <div><span class="icon-首页"></span></div>
+              <div><span class="icon-纸飞机"></span></div>
               <div>发现</div>
       </router-link>
       <router-link to="/active">
-              <div><span class="icon-分类"></span></div>
+              <div><span class="icon-日期"></span></div>
               <div>活动</div>
       </router-link>
       <router-link to="/about">
-              <div><span class="icon-购物车"></span></div>
+              <div><span class="icon-我们"></span></div>
               <div class="cartText">关于我们</div>
               <!-- <div class="ft">1</div> -->
       </router-link>
       <router-link to="/seek">
-               <div><span class="icon-个人"></span></div>
+               <div><span class="icon-咨询"></span></div>
                <div>咨询</div> 
       </router-link>
   </div>
@@ -70,7 +70,7 @@
 }
 .cartText {
    position: relative;
-   left:3/@rem;
+   
 }
 .ft {
            position: absolute;

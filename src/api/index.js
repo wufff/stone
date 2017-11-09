@@ -2,12 +2,12 @@ import axios from 'axios';
 import { Indicator } from 'mint-ui';
 var CryptoJS = require("crypto-js");
 var instance = axios.create({
-  baseURL: 'http://www.wayperfect.com:888/',
+  baseURL: 'http://www.wapdoor.com:888/',
   timeout: 5000,
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 });
 var storage = window.localStorage;
-/*storage.setItem("token","27817DC9-E279-4711-949E-6787F4C305E7")*/
+storage.setItem("token","27817DC9-E279-4711-949E-6787F4C305E7")
 
 
 

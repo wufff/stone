@@ -14,12 +14,12 @@
                                    <img v-lazy="item.pic" forat="item.pic" lazy="loading">
                               </div>
                               <p class="name">
-                                {{item.title}}
+                                <span class="tag">玉石大</span>{{item.title}}
                              </p>
                              <div class="priceWarp">
-                                 <span><i class="fa fa-heart"></i> 11</span>
+                                 <span><span class="icon-点赞空心" style="color:red;"></span> <span class="num">11</span></span>
                                          &nbsp&nbsp 
-                                 <span><i class="fa fa-eye"></i> 12</span>
+                                 <span><span class="icon-浏览 liulan"></span> <span class="num">12</span></span>
                              </div>
                           </router-link>
                         </div>
@@ -127,7 +127,7 @@ import { Spinner } from 'vux';
            position: relative;
          }
          .goodImgwarp {
-           margin-bottom:2/@rem;
+           margin-bottom:10/@rem;
            height: 182/@rem;
            color: #fff;
            img{ width: 100%;height: 100%;display: block;}
@@ -148,15 +148,29 @@ import { Spinner } from 'vux';
              text-shadow:2px 2px 4px #fff;
            }
          }
-       .name {
+        .name {
           font-size: 14/@rem;
-          overflow: hidden;
-          text-overflow:ellipsis;
-          white-space: nowrap;
           margin-bottom: 5/@rem;
           color: #545352;
-          font-weight: bold;
           padding: 0 10/@rem;
+          font-size: 14/@rem;
+          height: 36/@rem;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+         -webkit-line-clamp: 2;
+          overflow: hidden;
+          padding: 0 5/@rem;
+          margin-bottom: 10/@rem;
+          line-height: 18/@rem;
+          .tag {
+             background-color: red;
+             color: #fff;
+             margin-right: 5/@rem;
+             font-size: 12/@rem;
+             padding: 1px 4/@rem 1px 4/@rem; 
+             border-radius: 5/@rem; 
+             display: inline-block;
+          }
        }  
        .xzBox {
          position: absolute;
@@ -168,6 +182,14 @@ import { Spinner } from 'vux';
        }
       .priceWarp {
          text-align: center;
+         .liulan {
+           font-size: 18/@rem;
+           position: relative;
+           top:3/@rem;
+         }
+         .num {
+           font-size: 12/@rem;
+         }
       }
       /*.itemWrap:nth-of-type(1){
         padding-top: 2px;

@@ -62,6 +62,13 @@ export default new Router({
 	  component: function (resolve) {
 	    require(['@/components/detail/detail.vue'], resolve)
 	  }
+	},
+	{
+	  path: '/seekDetail',
+	  name:'seekDetail',
+	  component: function (resolve) {
+	    require(['@/components/seek/seekDetail.vue'], resolve)
+	  }
 	}
 	
   ]

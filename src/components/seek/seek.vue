@@ -1,42 +1,84 @@
 <template>
     <div>
-    <ul>
-        <li class="page-lazyload-listitem" v-for="item in list">
-         <img v-lazy="item" class="page-lazyload-image">
-      </li>
-    </ul>
+       <div class="pu_header clearfix" >
+             <div @click.prevent="goback" class="bakcSpan">
+                  <span class="icon-左"></span>
+             </div>
+             <span class="title">咨询</span>
+      </div>   
+      <div class="pu_content">
+          <ul class="wrap">
+            <li class="clearfix" @click.prevent="goDetail">
+              <span class="title">玉雕的几种特殊工艺技术</span>
+              <span class="time">1982/12/21</span>
+              <span class="icon-右 icon"></span>
+            </li>
+             <li class="clearfix">
+              <span class="title">人文化，立体化的玉器办件供应案发时爱的</span>
+              <span class="time">1982/12/21</span>
+              <span class="icon-右 icon"></span>
+            </li>
+          </ul>
+      </div>  
+       <foot></foot>
     </div>
 </template>
 
 <script type="ecmascript-6">
-import { Lazyload } from 'mint-ui';
+import foot from '@/components/aashare/foot';
     export default {
     name: '',
     data(){
       return {
-         list: [
-          'http://fuss10.elemecdn.com/b/18/0678e57cb1b226c04888e7f244c20jpeg.jpeg',
-          'http://fuss10.elemecdn.com/3/1e/42634e29812e6594c98a89e922c60jpeg.jpeg',
-          'http://fuss10.elemecdn.com/1/c5/95c37272d3e554317dcec1e17a9f5jpeg.jpeg',
-          'http://fuss10.elemecdn.com/7/85/e478e4b26af74f4539c79f31fde80jpeg.jpeg',
-          'http://fuss10.elemecdn.com/b/df/b630636b444346e38cef6c59f6457jpeg.jpeg',
-          'http://fuss10.elemecdn.com/7/a5/596ab03934612236f807b92906fd8jpeg.jpeg'
-        ]
+         liDate:[], 
       }
     },
     created:function(){
       
     },
     methods:{
-      
+       goback(){
+         window.history.go(-1);
+       },
+       goDetail(){
+         this.$router.push({path:"/seekDetail"});
+       }
+    },
+    components: {
+      foot 
     }
   }
 </script>
 
-<style scoped>
-  img {
-    display: block;
-    width: 100%;
+<style  lang="less" scoped>
+@rem: 23.45rem;
+  .wrap {
+     li {
+        background-color: #fff;
+        position: relative;
+        border-bottom: 1px solid #eee;
+        padding:7/@rem 15/@rem 7/@rem 15/@rem;
+        span{
+           float: left;
+        }
+        .title {
+           width: 230/@rem;
+           overflow: hidden;
+           text-overflow:ellipsis;
+           white-space: nowrap;
+           color:#545352;
+        } 
+        .time {
+            font-size: 14/@rem;
+            color:#999;
+            margin-left: 15/@rem;
+        }
+        .icon {
+          position: absolute;
+          right: 12/@rem;
+          top:8/@rem;
+        }
+     }
   }
     
 </style>

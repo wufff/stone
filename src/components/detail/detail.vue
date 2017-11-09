@@ -3,13 +3,24 @@
       <div class="backBt"  @click.prenvet="goBack">
          <i class="fa fa-angle-left"></i>
       </div>
-      <ul>
-          <li class="page-lazyload-listitem" v-for="item in list">
-           <img v-lazy="item" class="page-lazyload-image">
-        </li>
-      </ul>
+      <div class="datail_content">
+         <ul>
+           <li class="page-lazyload-listitem" v-for="item in list">
+             <img v-lazy="item" class="page-lazyload-image">
+           </li>
+        </ul>
+        <div class="info">
+           <div class="head">
+             
+           </div>
+           <div class="body">
+             <div class="title"></div>
+              
+           </div>
+        </div>
+      </div>
       <div class="footfix">
-         <div class="top">
+         <div class="top" id="top">
             <p class="name">namenamenamename</p>
             <div class="tag">
               <span>adfadfs</span>
@@ -18,8 +29,9 @@
          </div>
          <div class="bottom clearfix">
             <div class="left" @click="scrollDetail">详情 <i class="fa fa-angle-right"></i></div>
-            <div class="right">点赞 1</div>
-            <div class="right">浏览 1</div>
+            
+            <div class="right"><span class="icon-浏览"></span> <span class="num">1</span></div>
+            <div class="right"><span class="icon-点赞空心"></span> <span class="num">1</span></div>
          </div>
       </div>
     </div>
@@ -62,10 +74,14 @@ import { Lazyload } from 'mint-ui';
       },
       changscroll(){
          var top = getScrollTop();
-         console.log(top);
+         var name = document.getElementById("top");
+         if(top == 0){
+            name.style.display = 'block';
+         }else {
+            name.style.display = 'none';
+         }
       },
       scrollDetail(){
-          console.log("c");
           document.body.scrollTop = 0;
       }
     }
@@ -115,13 +131,22 @@ import { Lazyload } from 'mint-ui';
                 }
      }
      .bottom {
-       border-top: 1px solid #999;
+       border-top: 1px solid #ddd;
        height: 40/@rem;
        line-height: 40/@rem;
+       padding-left: 15/@rem;
+       padding-right: 15/@rem;
        div {
-         width: 80/@rem;
+         width: 60/@rem;
          text-align: center;
        }
+       .num {
+         font-size: 14/@rem;
+         margin-left: 5/@rem;
+       }
      }
+  }
+  .datail_content {
+     padding-bottom: 40/@rem;
   }
 </style>

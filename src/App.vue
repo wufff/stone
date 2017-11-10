@@ -9,6 +9,7 @@ export default {
   name: 'app',
    beforeCreate:function(){  
      var storage = window.localStorage;
+     storage.setItem("token","27817DC9-E279-4711-949E-6787F4C305E7");
       function ajax(method, url, data, success) {
             var xhr = null;
             try {
@@ -58,7 +59,7 @@ export default {
             if (code == undefined) {
                 var postJsonOauth = { "action": "OAuth/Authorize", "args": null };
                 var strOauthPost = JSON.stringify(postJsonOauth);
-                ajax("post", "http://www.wayperfect.com:888/", strOauthPost,
+                ajax("post", "http://www.wapdoor.com:888/", strOauthPost,
                     function (data) {
                         console.log("发起授权");                        
                         var resultJson = JSON.parse(data);
@@ -79,7 +80,7 @@ export default {
                 return;
             }
             //TODO 将以下步骤改为服务器端完成，在302重定向时，服务器就能够完成授权过程，不必再重复以下步骤
-            ajax("post", "http://www.wayperfect.com:888/", strPost,
+            ajax("post", "http://www.wapdoor.com:888/", strPost,
                 function (result) {
                     console.log("授权完成");
                     ////alert(result);
@@ -105,7 +106,7 @@ export default {
                     }
                 };
                 var strPost = JSON.stringify(postJson);
-                ajax("post", "http://www.wayperfect.com:888/", strPost,
+                ajax("post", "http://www.wapdoor.com:888/", strPost,
                     function (result) {
                         var resultJson = JSON.parse(result);
                         if (!resultJson.result) {

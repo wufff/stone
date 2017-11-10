@@ -11,17 +11,24 @@
                            <router-link :to ="{ path: '/detail',query:{ id: item.id }}">
                              <div class="goodImgwarp">
                                    <!-- <img v-lazy="item.pic" forat="item.pic"> -->
-                                   <img v-lazy="item.pic" forat="item.pic" lazy="loading">
+                                   <img v-lazy="item.image">
                               </div>
                               <p class="name">
-                                <span class="tag">玉石大</span>{{item.title}}
+                                <span class="tag">{{item.tags[0]}}</span>{{item.name}}
                              </p>
+                            </router-link>
                              <div class="priceWarp">
-                                 <span><span class="icon-点赞空心" style="color:red;"></span> <span class="num">11</span></span>
+                                 <span v-show="item.hasLike">
+                                    <span class="icon-点赞空心" style="color:red;"></span>
+                                    <span class="num">{{item.likeCount}}</span>
+                                 </span>
+                                 <span v-show="!item.hasLike" @click.prevnet="like(index,item.id)">
+                                    <span class="icon-点赞空心"></span>
+                                    <span class="num">{{item.likeCount}}</span>
+                                 </span>
                                          &nbsp&nbsp 
-                                 <span><span class="icon-浏览 liulan"></span> <span class="num">12</span></span>
+                                 <span><span class="icon-浏览 liulan"></span> <span class="num">{{item.pv}}</span></span>
                              </div>
-                          </router-link>
                         </div>
                     </div>           
                 </div>
@@ -53,10 +60,10 @@ import { Spinner } from 'vux';
 
     created:function(){
   api.ajaxLaodingN('',
-     this.params.action,{"pageIndex":this.page,"pageSize":6,"storeId":this.params.storeId}
+     this.params.action,{"pageIndex":this.page,"pageSize":6}
     ).then(res=>{
     	 console.log(res);
-       this.hotData = res.data.result.data;
+       this.hotData = res.data.result.products;
        this.scroll = true;
        this.page ++;
      if(!res.data.result.hasNext){
@@ -69,6 +76,30 @@ import { Spinner } from 'vux';
     },
 
     methods:{
+      like(index,id){
+        api.ajax('',
+         "Goods/Like",{"id":id}
+        ).then(res=>{
+          console.log(res);
+         if(res.data.result){
+             this.$vux.toast.show({
+                          text: '点赞成功',
+                          type:"text",
+                          time:1000
+                     });
+              this.hotData[index].hasLike = true;
+                }else {
+             this.$vux.toast.show({
+                          text: '已经点过赞',
+                          type:"text",
+                          time:1000
+                });
+            }
+        }).catch(()=>{
+          console.log("失败");
+        });
+      },
+
     	loadMore(){
 	        if(this.scroll == false){
 	           return;
@@ -76,9 +107,9 @@ import { Spinner } from 'vux';
 	       console.log("进入更多");
 	       this.loading = true; 
            api.ajaxN('',
-			      this.params.action,{"pageIndex":this.page,"pageSize":6,"storeId":this.params.storeId}
+			      this.params.action,{"pageIndex":this.page,"pageSize":6}
 			    ).then(res=>{
-			     var data = res.data.result.data;
+			     var data = res.data.result.products;
 			       this.page ++;
 			       this.hotData.push(...data);
 			       this.loading = false;
@@ -122,7 +153,7 @@ import { Spinner } from 'vux';
            }
          a {
            display: block;
-           padding-bottom: 10/@rem;
+           
            background-color: #fff;
            position: relative;
          }
@@ -150,7 +181,6 @@ import { Spinner } from 'vux';
          }
         .name {
           font-size: 14/@rem;
-          margin-bottom: 5/@rem;
           color: #545352;
           padding: 0 10/@rem;
           font-size: 14/@rem;
@@ -160,7 +190,7 @@ import { Spinner } from 'vux';
          -webkit-line-clamp: 2;
           overflow: hidden;
           padding: 0 5/@rem;
-          margin-bottom: 10/@rem;
+          padding-bottom: 15/@rem;
           line-height: 18/@rem;
           .tag {
              background-color: red;
@@ -182,6 +212,9 @@ import { Spinner } from 'vux';
        }
       .priceWarp {
          text-align: center;
+         background-color: #fff;
+         padding-bottom: 10/@rem;
+         padding-top: 8/@rem;
          .liulan {
            font-size: 18/@rem;
            position: relative;
@@ -191,12 +224,12 @@ import { Spinner } from 'vux';
            font-size: 12/@rem;
          }
       }
-      /*.itemWrap:nth-of-type(1){
-        padding-top: 2px;
+      .itemWrap:nth-of-type(1){
+        padding-top: 2/@rem;
       }
       .itemWrap:nth-of-type(2){
-        padding-top:  2px;
-      }*/
+        padding-top:  2/@rem;
+      }
     }
     .spinnerWap {
     margin: 0 auto;

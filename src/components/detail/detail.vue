@@ -1,43 +1,41 @@
 <template>
     <div>
       <div class="backBt"  @click.prenvet="goBack">
-         <i class="fa fa-angle-left"></i>
+         <span class="icon-左"></span>
       </div>
-      <div class="datail_content">
+      <div class="datail_content" id="content">
          <ul>
-           <li class="page-lazyload-listitem" v-for="item in list">
-             <img v-lazy="item" class="page-lazyload-image">
+           <li class="page-lazyload-listitem" v-for="item in images">
+             <img v-lazy="item">
            </li>
         </ul>
         <div class="info">
-           <div class="head">
-             
-           </div>
-           <div class="body">
-             <div class="title"></div>
+           <div v-html="info.desc">
               
            </div>
         </div>
       </div>
       <div class="footfix">
          <div class="top" id="top">
-            <p class="name">namenamenamename</p>
+            <p class="name">{{info.name}}</p>
             <div class="tag">
-              <span>adfadfs</span>
-              <span>adfadfs</span>
+              <span v-for="item in info.tags">{{item}}</span>
             </div>      
          </div>
          <div class="bottom clearfix">
             <div class="left" @click="scrollDetail">详情 <i class="fa fa-angle-right"></i></div>
-            
-            <div class="right"><span class="icon-浏览"></span> <span class="num">1</span></div>
-            <div class="right"><span class="icon-点赞空心"></span> <span class="num">1</span></div>
-         </div>
+            <div class="right"><span class="icon-浏览"></span> <span class="num"></span>{{info.pv}}</div>
+            <div class="right" @click.prevent="like">
+              <span class="icon-点赞空心" v-show="!info.hasLike"></span>
+              <span class="icon-点赞空心" v-show="info.hasLike" style="color:red"></span>
+             <span class="num">{{info.likeCount}}</span></div>
+           </div>
       </div>
     </div>
 </template>
 
 <script type="ecmascript-6">
+import api from '@/api';
  function getScrollTop() {  
             var scrollPos;  
             if (window.pageYOffset) {  
@@ -47,23 +45,35 @@
             else if (document.body) { scrollPos = document.body.scrollTop; }   
             return scrollPos;   
     }  
+ function getWindowHeight(){
+　　var windowHeight = 0;
+　　if(document.compatMode == "CSS1Compat"){
+　　　　windowHeight = document.documentElement.clientHeight;
+　　}else{
+　　　　windowHeight = document.body.clientHeight;
+　　}
+　　return windowHeight;
+}
+   
 import { Lazyload } from 'mint-ui';
     export default {
     name: '',
     data(){
       return {
-         list: [
-          'http://fuss10.elemecdn.com/b/18/0678e57cb1b226c04888e7f244c20jpeg.jpeg',
-          'http://fuss10.elemecdn.com/3/1e/42634e29812e6594c98a89e922c60jpeg.jpeg',
-          'http://fuss10.elemecdn.com/1/c5/95c37272d3e554317dcec1e17a9f5jpeg.jpeg',
-          'http://fuss10.elemecdn.com/7/85/e478e4b26af74f4539c79f31fde80jpeg.jpeg',
-          'http://fuss10.elemecdn.com/b/df/b630636b444346e38cef6c59f6457jpeg.jpeg',
-          'http://fuss10.elemecdn.com/7/a5/596ab03934612236f807b92906fd8jpeg.jpeg'
-        ]
+         images: [],
+         info:""
       }
     },
     created:function(){
-      
+       api.ajaxLaoding('',
+         "Goods/Detail",{"id":this.$route.query.id}
+        ).then(res=>{
+          console.log(res);
+          this.images = res.data.result.images;
+          this.info = res.data.result;
+        }).catch(()=>{
+          console.log("失败");
+        });
     },
     mounted() {
          window.addEventListener('scroll', this.changscroll)
@@ -82,7 +92,30 @@ import { Lazyload } from 'mint-ui';
          }
       },
       scrollDetail(){
-          document.body.scrollTop = 0;
+         var h = document.documentElement.scrollHeight || document.body.scrollHeight;
+         window.scrollTo(h,h);
+      },
+      like(){
+          api.ajax('',
+         "Goods/Like",{"id":this.$route.query.id}
+        ).then(res=>{
+         if(res.data.result){
+             this.$vux.toast.show({
+                          text: '点赞成功',
+                          type:"text",
+                          time:1000
+                     });
+             
+                }else {
+             this.$vux.toast.show({
+                          text: '已经点过赞',
+                          type:"text",
+                          time:1000
+                });
+            }
+        }).catch(()=>{
+          console.log("失败");
+        });
       }
     }
   }
@@ -102,12 +135,12 @@ import { Lazyload } from 'mint-ui';
      border-radius: 50%;
      background-color: rgba(0,0,0,0.2);
      color: #fff;
-     line-height: 35px;
+     line-height: 38px;
      text-align: center;
      position: fixed;
      left: 20/@rem;
      top:18/@rem;
-     i {
+     span{
       font-size: 20px;
      }
   }  
@@ -124,10 +157,14 @@ import { Lazyload } from 'mint-ui';
        .tag {
           span {
                  display: inline-block; 
-                 padding: 2/@rem 15/@rem;
+                 padding: 2/@rem 10/@rem;
                  background: red;
                  color:#fff;
-                 border-radius:8/@rem;}
+                 border-radius:8/@rem;
+                 font-size: 13/@rem;
+                 margin-right: 8/@rem;
+
+               }
                 }
      }
      .bottom {
@@ -147,6 +184,10 @@ import { Lazyload } from 'mint-ui';
      }
   }
   .datail_content {
-     padding-bottom: 40/@rem;
+     padding-bottom: 43/@rem;
+  }
+  .info {
+     background-color: #fff;
+     padding: 10/@rem;
   }
 </style>

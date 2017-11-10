@@ -2,9 +2,9 @@
     <div class="searchList">
        <div class="searchtitle clearfix">
          <div class="left goBack" @click.prevent="goBack">
-           <i class="fa fa-angle-left"></i>
+           <span class="icon-左"></span>
         </div>
-         <div class="left">{{title}}</div>
+         <div class="left">{{keyword}} {{cateword}}</div>
          <div class="right color" @click.prevent="filter">筛选</div>
       </div>
         <div class="content">
@@ -24,15 +24,18 @@
                          <div style="position:relative;">
                            <router-link :to ="{ path: '/detail',query:{ id: item.id }}">
                              <div class="goodImgwarp">
-                                   <img v-lazy="item.imgUrl" forat="item.imgUrl" lazy="loading">
+                                   <img v-lazy="item.image" forat="item.image">
                               </div>
                               <p class="name">
-                                <span class="tag">玉石大</span>{{item.name}}
+                                <span class="tag">{{item.tags[0]}}</span>{{item.name}}
                              </p>
                              <div class="priceWarp">
-                                  <span><span class="icon-点赞空心" style="color:red;"></span> <span class="num">11</span></span>
+                                  <span>
+                                    <span class="icon-点赞空心" style="color:red;" v-show="item.hasLike"></span>
+                                    <span class="icon-点赞空心" style="color:red;" v-show="!item.hasLike"></span>  
+                                    <span class="num">{{item.likeCount}}</span></span>
                                          &nbsp&nbsp 
-                                 <span><span class="icon-浏览 liulan"></span> <span class="num">12</span></span>
+                                 <span><span class="icon-浏览 liulan"></span> <span class="num">{{item.pv}}</span></span>
                              </div>
                           </router-link>
                         </div>
@@ -53,7 +56,7 @@
               <div class="wrapPoup">
                  <div class="head clearfix">
                     <span class="left" @click.prevent="closePopus">取消</span>
-                    <span class="right">确定</span>
+                    <span class="right" @click.prevent="sureFider">确定</span>
                  </div>
                  <div class="item_content">
                     <ul>
@@ -62,55 +65,13 @@
                              分类
                           </div>
                           <ul class="item_ul clearfix">
-                             <li class="active">
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
+                             <li :class="{active:index == filterData.selected}" 
+                             v-for="(item,index) in filterData.categories"
+                             @click.prevent="selectFider(index)">
+                               <div>{{item.name}}</div>
                              </li>
                           </ul>
                        </li>
-
-                    </ul>
-                    <ul>
-                       <li>
-                          <div class="title">
-                             分类
-                          </div>
-                          <ul class="item_ul clearfix">
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                             <li>
-                               <div>子分类一</div>
-                             </li>
-                          </ul>
-                       </li>
-
                     </ul>
                  </div>
               </div>
@@ -135,10 +96,13 @@ function initP(p){
     name: 'searchList',
     data(){
       return {
-      	title:"",
+      	keyword:"",
+        cateword:"",
+        cateId:"",
         storeName:"",
         index:0,
         liData:[],
+        filterData:"",
         sort:10,
         isBottom:false,
         scroll:false,
@@ -149,51 +113,58 @@ function initP(p){
       }
     },
     created:function(){
-      if(this.$route.query.word){
-        this.title = this.$route.query.word;
-      }else {
-         this.title = "全部商品";
+      if(this.$route.query.keyword){
+        this.keyword = this.$route.query.keyword;
       }
-       if(this.$route.query.storeName){
-        this.storeName = this.$route.query.storeName;
-      }else {
-         this.storeName = "";
+      if(this.$route.query.cateword){
+        this.cateword = this.$route.query.cateword;
       }
-
+      if(this.$route.query.cateId){
+        this.cateId = this.$route.query.cateId;
+      }
 
       api.ajaxLaoding('',
-        "Search/SearchResultList",{"searchKey":initP(this.$route.query.word),"storeId":initP(this.$route.query.storeId),"cateId":initP(this.$route.query.cate),"sort":10,"pageIndex":this.page,"pageSize":5}
+        "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":10,"pageIndex":this.page,"pageSize":6}
           ).then(res=>{
-            var data = res.data.result.data;
+            this.liData = res.data.result.products;
             this.hasnext = res.data.result.hasNext;
             console.log(res);
-            this.pt = "无匹配~！";
-            this.liData = data.map( item => {
-                     return {
-                               id:item.id,
-                               name: item.title,
-                               sells: item.salesCount,
-                               price: item.price,
-                               s:item.marketPrice,
-                               imgUrl:item.pic
-                            }
-                 });
-        this.scroll = true;
-        this.page++;
-        if(!this.hasnext){
-              this.isBottom = true;
-              this.scroll = false ;
-         }
-         }).catch(()=>{
-          console.log("失败");
-        });
+            this.pt = "无匹配~！";  
+            this.scroll = true;
+            this.page++;
+            if(!this.hasnext){
+                  this.isBottom = true;
+                  this.scroll = false ;
+             }
+             }).catch(()=>{
+              console.log("失败");
+            });
     },
     methods:{
     	goBack(){
     		window.history.go(-1);
     	},
+      selectFider(index) {
+          this.filterData.selected = index;
+          this.cateword =  this.filterData.categories[index].name;
+          this.cateId =  this.filterData.categories[index].cateId;
+      },
+      sureFider(){
+          this.filterPoup = false;
+      },
+      
+
       filter(){
-        this.filterPoup = true;
+
+         api.ajaxLaoding('',
+        "Category/Filter",{}
+          ).then(res=>{
+            this.filterData = res.data.result;
+            this.filterPoup = true;
+            console.log(res);
+             }).catch(()=>{
+              console.log("失败");
+            });
       },
       closePopus(){
         this.filterPoup = false;
@@ -208,9 +179,9 @@ function initP(p){
         this.page = 1;
         this.sort = 10;
         api.ajax('',
-            "Search/SearchResultList",{"searchKey":initP(this.$route.query.word),"storeId":initP(this.$route.query.storeId),"cateId":initP(this.$route.query.cate),"sort":this.sort,"pageIndex":this.page,"pageSize":5}
+            "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":10,"pageIndex":this.page,"pageSize":6}
                 ).then(res=>{
-                  var data = res.data.result.data;
+                  var data = res.data.result.products;
                   this.hasnext = res.data.result.hasNext;
                   this.liData = data.map( item => {
                            return {
@@ -242,21 +213,11 @@ function initP(p){
         this.page = 1;
         this.sort = 20;
         api.ajax('',
-           "Search/SearchResultList",{"searchKey":initP(this.$route.query.word),"storeId":initP(this.$route.query.storeId),"cateId":initP(this.$route.query.cate),"sort":20,"pageIndex":this.page,"pageSize":5}
+           "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":10,"pageIndex":this.page,"pageSize":6}
                 ).then(res=>{
                 
-                  var data = res.data.result.data;
+                  this.liData = res.data.result.products;
                   this.hasnext = res.data.result.hasNext;
-                  this.liData = data.map( item => {
-                           return {
-                                     id:item.id,
-                                     name: item.title,
-                                     sells: item.salesCount,
-                                     price: item.price,
-                                     s:item.marketPrice,
-                                     imgUrl:item.pic
-                                  }
-                       });
                   this.page ++;     
                   this.scroll = true; 
                   if(!this.hasnext){
@@ -278,21 +239,11 @@ function initP(p){
         this.page = 1;
         this.sort = 30;
         api.ajax('',
-           "Search/SearchResultList",{"searchKey":initP(this.$route.query.word),"storeId":initP(this.$route.query.storeId),"cateId":initP(this.$route.query.cate),"sort":30,"pageIndex":this.page,"pageSize":5}
+           "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":10,"pageIndex":this.page,"pageSize":6}
                 ).then(res=>{
                 
-                  var data = res.data.result.data;
+                  this.liData = res.data.result.products;
                   this.hasnext = res.data.result.hasNext;
-                  this.liData = data.map( item => {
-                           return {
-                                     id:item.id,
-                                     name: item.title,
-                                     sells: item.salesCount,
-                                     price: item.price,
-                                     s:item.marketPrice,
-                                     imgUrl:item.pic
-                                  }
-                       });
                   this.page ++;     
                   this.scroll = true; 
                   if(!this.hasnext){
@@ -311,21 +262,11 @@ function initP(p){
         console.log("进入更多");
         this.loading = true; 
         api.ajax('',
-            "Search/SearchResultList",{"searchKey":initP(this.$route.query.word),"storeId":initP(this.$route.query.storeId),"cateId":initP(this.$route.query.cate),"sort":this.sort,"pageIndex":this.page,"pageSize":5}
+            "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":10,"pageIndex":this.page,"pageSize":6}
                 ).then(res=>{
                     console.log(res);
-                  var data = res.data.result.data;
+                  var item = res.data.result.products;
                   this.hasnext = res.data.result.hasNext;
-                  var item = data.map( item => {
-                           return {
-                                     id:item.id,
-                                     name: item.title,
-                                     sells: item.salesCount,
-                                     price: item.price,
-                                     s:item.marketPrice,
-                                     imgUrl:item.pic
-                                  }
-                       });
                   this.liData.push(...item);
                   this.loading = false; 
                   this.page ++;
@@ -527,6 +468,7 @@ function initP(p){
      li.active > div {
        background-color: #04BE02;
        color: #fff;
+       border:1px solid #04BE02;
      }
   }
  }

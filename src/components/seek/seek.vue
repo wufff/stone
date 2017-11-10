@@ -8,14 +8,9 @@
       </div>   
       <div class="pu_content">
           <ul class="wrap">
-            <li class="clearfix" @click.prevent="goDetail">
-              <span class="title">玉雕的几种特殊工艺技术</span>
-              <span class="time">1982/12/21</span>
-              <span class="icon-右 icon"></span>
-            </li>
-             <li class="clearfix">
-              <span class="title">人文化，立体化的玉器办件供应案发时爱的</span>
-              <span class="time">1982/12/21</span>
+            <li class="clearfix" @click.prevent="goDetail(item.id)" v-for="item in liDate">
+              <span class="title">{{item.name}}</span>
+              <span class="time">{{item.created}}</span>
               <span class="icon-右 icon"></span>
             </li>
           </ul>
@@ -25,6 +20,7 @@
 </template>
 
 <script type="ecmascript-6">
+import api from '@/api';
 import foot from '@/components/aashare/foot';
     export default {
     name: '',
@@ -33,15 +29,24 @@ import foot from '@/components/aashare/foot';
          liDate:[], 
       }
     },
+
     created:function(){
-      
-    },
+       api.ajaxLaoding('',
+         "Article/List",{"pageIndex":1,"pageSize":20}
+        ).then(res=>{
+          this.liDate = res.data.result.articles;
+          console.log(res);
+        }).catch(()=>{
+          console.log("失败");
+        });
+   },
+   
     methods:{
        goback(){
          window.history.go(-1);
        },
-       goDetail(){
-         this.$router.push({path:"/seekDetail"});
+       goDetail(id){
+         this.$router.push({path:"/seekDetail",query:{id:id}});
        }
     },
     components: {
@@ -57,7 +62,7 @@ import foot from '@/components/aashare/foot';
         background-color: #fff;
         position: relative;
         border-bottom: 1px solid #eee;
-        padding:7/@rem 15/@rem 7/@rem 15/@rem;
+        padding:9/@rem 15/@rem 9/@rem 15/@rem;
         span{
            float: left;
         }

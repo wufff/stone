@@ -8,8 +8,9 @@ import { InfiniteScroll } from 'mint-ui';
 import router from './router';
 import { Swipe, SwipeItem } from 'mint-ui';
 import { Lazyload } from 'mint-ui';
+import  { ToastPlugin } from 'vux';
 
-
+Vue.use(ToastPlugin);
 Vue.use(Lazyload);
 Vue.use(InfiniteScroll);
 Vue.component(Swipe.name, Swipe);

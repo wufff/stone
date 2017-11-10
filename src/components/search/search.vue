@@ -2,7 +2,7 @@
     <div class="sreach">
           <div class="searchWarp clearfix">
          <div class="left" @click.prevent="goBack">
-           <i class="fa fa-angle-left"></i>
+           <span class="icon-左"></span>
           </div>
          <div class="right ss" @click.prevent="sreach">搜索</div>
          <div class="inputBox3 right">
@@ -21,7 +21,7 @@
 </template>
 
 <script type="ecmascript-6">
-import { Icon } from 'vux'
+import { Icon } from 'vux';
 import api from '@/api';
     export default {
     name: 'sreach',
@@ -46,11 +46,11 @@ import api from '@/api';
     	   window.history.go(-1);
     	},
     	goSearchList(item){
-    		this.$router.push({path:"/searchList",query:{word:item}});
+    		this.$router.push({path:"/searchList",query:{keyword:item}});
     	},
     	sreach(){
     		if(this.msg){
-    			this.$router.push({path:"/searchList",query:{word:this.msg}});
+    			this.$router.push({path:"/searchList",query:{keyword:this.msg}});
     		}
     	},
     	dele(){
@@ -83,11 +83,12 @@ import api from '@/api';
      }
    	 li {
    	 	float: left;
-   	 	border:1px solid #999;
+   	 	border:1px solid #04BE02;
    	 	border-radius: 10px;
    	 	padding: 3/@rem 10/@rem; 
    	 	margin-right: 20/@rem; 
    	 	margin-bottom:15/@rem; 
+      color: #04BE02;
    	 }
    }
 </style>

@@ -7,7 +7,7 @@ var instance = axios.create({
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 });
 var storage = window.localStorage;
-storage.setItem("token","27817DC9-E279-4711-949E-6787F4C305E7")
+storage.setItem("token","27817DC9-E279-4711-949E-6787F4C305E7");
 
 
 

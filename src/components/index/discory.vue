@@ -11,18 +11,34 @@
           </div>
          <div class="inputBox" @click.prevent="goReach">
             <span class="icon-放大镜 icon"></span>
-            <span style="color: #ddd" >约152598种商品</span>
+            <span style="color: #ddd"></span>
          </div>
   </div>
   <div class="index_content">
-        <div class="page-swipe">
+        <div class="page-swipe slide">
               <mt-swipe :auto="5000">
-                 <mt-swipe-item v-for="(item,index) in 3" :key="index">{{item}}</mt-swipe-item>
+                 <mt-swipe-item v-for="(item,index) in slides" :key="index">
+                     <img v-lazy="item.image">
+                  </mt-swipe-item>
               </mt-swipe>
         </div>
-       <!--  <div class="hot_wrap">
+        <div class="classfiy clearfix">
+            <div v-for="item in categories" @click="goSearchlist(item.id,item.name)">
+              <img v-lazy="item.image">
+              <p>{{item.name}}</p>
+            </div>
+           <div @click.prevent="goClassfiy">
+              <img v-lazy="">
+              <p v-text="text2"></p>
+           </div>
+        </div>
+        <div class="active clearfix">
+            <h5>{{text1}}</h5>
+            <img v-lazy="item.image"  v-for="item in campaigns" @click="goAcitve(item.id)">
+         </div> 
+        <div class="hot">
             <hot :params="hotParams"></hot>
-         </div> -->
+        </div>
   </div>
 
    <foot></foot>
@@ -37,9 +53,14 @@ export default {
   name: 'hello',
   data () {
     return {
+       slides:"",
+       categories:"",
+       campaigns:"",
+       /*text*/
+       text1:"",
+       text2:"",
        hotParams:{
-           action:"Home/hotSales",
-           storeId:"",
+           action:"Home/HotSales",
            title:"部分精选"
         }
     }
@@ -49,7 +70,12 @@ export default {
       api.ajaxLaoding('',
          "Home/Index",{}
         ).then(res=>{
-          console.log(res);
+          this.slides = res.data.result.slides;
+          this.categories = res.data.result.categories;
+          this.campaigns = res.data.result.campaigns;
+          console.log(this.campaigns);
+          this.text1 = "热门活动";
+          this.text2="所有宝贝";
         }).catch(()=>{
           console.log("失败");
         });
@@ -57,13 +83,20 @@ export default {
 
   methods:{
       goClassfiy(){
-         this.$router.push({path:"/classfiy"});
+         /*this.$router.push({path:"/classfiy"});*/
+         alert("即将上线")
       },
       goReach(){
         this.$router.push({path:"/search"});
       },
       goSeek(){
         this.$router.push({path:"/seek"});
+      },
+      goSearchlist(id,word){
+          this.$router.push({path:"/searchList",query:{cateId:id,cateword:word}});
+      },
+      goAcitve(id){
+        this.$router.push({path:"/activeDetail",query:{id:id}});
       }
   },
 
@@ -149,6 +182,50 @@ export default {
  .index_content {
     padding-top: 40/@rem;
     padding-bottom: 58/@rem;
-
+    .slide {
+       margin-bottom: 3/@rem;
+    }
+    .classfiy{
+      margin-bottom: 3/@rem;
+    }
+    .active {
+       margin-bottom: 3/@rem;
+    }
   }
+  .classfiy {
+     > div {
+       width: 16.666%;
+       float: left;
+       border-right:1px solid #f4f4f4; 
+       background-color: #fff;
+       padding: 5/@rem 0;
+       img{ 
+         display: block;
+         width: 30/@rem;
+         height: 30/@rem;
+         margin: 3/@rem auto;
+       }
+       p {
+         text-align: center;
+         font-size: 13/@rem;
+       }
+     }
+  }
+  .active {
+       background-color: #fff;
+       padding: 10/@rem 8/@rem 10/@rem 8/@rem;
+       h5 {
+         font-weight: normal;
+         padding-left: 15/@rem;
+         padding-bottom: 2/@rem;
+         font-size: 14/@rem;
+         margin-bottom: 4/@rem;
+         text-align: center;
+       }
+      img {
+         width: 100%;
+         height: 180/@rem;
+         margin-bottom: 5/@rem;
+      }
+    }
 </style>

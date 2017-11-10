@@ -6,7 +6,7 @@
           </div>
          <div class="inputBox2 right" @click.prevent="goSearch">
             <span class="icon-放大镜 icon"></span>
-            <span>约131102件宝贝</span>
+            <span></span>
          </div>
       </div>
       <div class="content">

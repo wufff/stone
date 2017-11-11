@@ -26,7 +26,7 @@
                                     <span class="icon-点赞空心"></span>
                                     <span class="num">{{item.likeCount}}</span>
                                  </span>
-                                         &nbsp&nbsp 
+                                         &nbsp&nbsp&nbsp 
                                  <span><span class="icon-浏览 liulan"></span> <span class="num">{{item.pv}}</span></span>
                              </div>
                         </div>

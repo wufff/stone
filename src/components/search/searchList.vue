@@ -23,21 +23,25 @@
                       <div class="itemWrap" v-for="(item,index) in liData">
                          <div style="position:relative;">
                            <router-link :to ="{ path: '/detail',query:{ id: item.id }}">
-                             <div class="goodImgwarp">
-                                   <img v-lazy="item.image" forat="item.image">
-                              </div>
-                              <p class="name">
-                                <span class="tag">{{item.tags[0]}}</span>{{item.name}}
-                             </p>
-                             <div class="priceWarp">
-                                  <span>
-                                    <span class="icon-点赞空心" style="color:red;" v-show="item.hasLike"></span>
-                                    <span class="icon-点赞空心" style="color:red;" v-show="!item.hasLike"></span>  
-                                    <span class="num">{{item.likeCount}}</span></span>
-                                         &nbsp&nbsp 
+                                 <div class="goodImgwarp">
+                                       <img v-lazy="item.image" forat="item.image">
+                                  </div>
+                                  <p class="name">
+                                    <span class="tag">{{item.tags[0]}}</span>{{item.name}}
+                                 </p>
+                          </router-link>
+                          <div class="priceWarp">
+                                 <span v-show="item.hasLike">
+                                    <span class="icon-点赞空心" style="color:red;"></span>
+                                    <span class="num">{{item.likeCount}}</span>
+                                 </span>
+                                 <span v-show="!item.hasLike" @click.prevnet="like(index,item.id)">
+                                    <span class="icon-点赞空心"></span>
+                                    <span class="num">{{item.likeCount}}</span>
+                                 </span>
+                                         &nbsp&nbsp&nbsp 
                                  <span><span class="icon-浏览 liulan"></span> <span class="num">{{item.pv}}</span></span>
                              </div>
-                          </router-link>
                         </div>
                     </div>           
                 </div>
@@ -52,7 +56,7 @@
         </div>
 
 
-         <popup v-model="filterPoup" position="right" width="100%">
+         <popup v-model="filterPoup" position="right" width="80%">
               <div class="wrapPoup">
                  <div class="head clearfix">
                     <span class="left" @click.prevent="closePopus">取消</span>
@@ -141,21 +145,15 @@ function initP(p){
             });
     },
     methods:{
+      /*跳转*/
     	goBack(){
     		window.history.go(-1);
     	},
-      selectFider(index) {
-          this.filterData.selected = index;
-          this.cateword =  this.filterData.categories[index].name;
-          this.cateId =  this.filterData.categories[index].cateId;
-      },
-      sureFider(){
-          this.filterPoup = false;
-      },
       
 
-      filter(){
 
+      /*弹出筛选框*/
+      filter(){
          api.ajaxLaoding('',
         "Category/Filter",{}
           ).then(res=>{
@@ -166,9 +164,49 @@ function initP(p){
               console.log("失败");
             });
       },
+      /*筛选型号*/
+      selectFider(index) {
+          this.filterData.selected = index;
+          this.cateword =  this.filterData.categories[index].name;
+          this.cateId =  this.filterData.categories[index].cateId;
+      },
+      
+      /*确定筛选*/
+      sureFider(){
+          this.filterPoup = false;
+      },
+      /*关闭筛选框*/
       closePopus(){
         this.filterPoup = false;
       },
+
+      /*点赞*/
+       like(index,id){
+        api.ajax('',
+         "Goods/Like",{"id":id}
+        ).then(res=>{
+          console.log(res);
+         if(res.data.result){
+             this.$vux.toast.show({
+                          text: '点赞成功',
+                          type:"text",
+                          time:1000
+                     });
+              this.hotData[index].hasLike = true;
+                }else {
+             this.$vux.toast.show({
+                          text: '已经点过赞',
+                          type:"text",
+                          time:1000
+                });
+            }
+        }).catch(()=>{
+          console.log("失败");
+        });
+      },
+      
+
+
       onItemClickShop(index){
         if(this.index == 0){
             return
@@ -345,7 +383,6 @@ function initP(p){
            }
          a {
            display: block;
-           padding-bottom: 10/@rem;
            background-color: #fff;
            position: relative;
          }
@@ -373,7 +410,6 @@ function initP(p){
          }
        .name {
           font-size: 14/@rem;
-          margin-bottom: 10/@rem;
           color: #545352;
           padding: 0 10/@rem;
           font-size: 14/@rem;
@@ -383,13 +419,12 @@ function initP(p){
          -webkit-line-clamp: 2;
           overflow: hidden;
           padding: 0 5/@rem;
-          margin-bottom: 5/@rem;
           line-height: 18/@rem;
           .tag {
              background-color: red;
              color: #fff;
              margin-right: 5/@rem;
-             font-size: 12/@rem;
+             font-size: 10/@rem;
              padding: 1px 4/@rem 1px 4/@rem; 
              border-radius: 5/@rem; 
              display: inline-block;
@@ -405,6 +440,9 @@ function initP(p){
        }
       .priceWarp {
          text-align: center;
+         background-color: #fff;
+         padding-bottom: 10/@rem;
+         padding-top: 8/@rem;
          .liulan {
            font-size: 18/@rem;
            position: relative;
@@ -463,6 +501,7 @@ function initP(p){
          border-radius: 5/@rem;
          padding: 6/@rem 0;
          text-align:  center;
+         font-size: 14/@rem;
        }
      }
      li.active > div {

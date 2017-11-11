@@ -7,7 +7,7 @@
           </div>
           <div class="cart" @click.prevent="goSeek">
             <span class="icon-咨询 icon"></span>
-            <p class="text">咨讯</p>
+            <p class="text">资讯</p>
           </div>
          <div class="inputBox" @click.prevent="goReach">
             <span class="icon-放大镜 icon"></span>
@@ -364,8 +364,7 @@ function navSwipe(box,ele) {
        }
       #wrap {
          position: relative;
-         width: 150%;
-         box-sizing: border-box;
+         width: 280%;
          #item {
             width: 187/@rem;
             height: 187/@rem;

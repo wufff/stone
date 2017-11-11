@@ -6,6 +6,7 @@
       <img v-lazy="list.image">
       <h4 class="title">{{list.name}}</h4>
       <p class="content">{{list.intro}}</p>
+      <div class="content" v-html="list.desc"></div>
   </div>
 </template>
 
@@ -31,6 +32,19 @@ export default {
           console.log("失败");
         });
    },
+
+    
+  updated: function (){
+          var p = document.querySelectorAll("p");
+            for (let i = 0 ; i<p.length ; i++){
+                p[i].style.padding  = '10px';
+           }
+            var imgs = document.querySelectorAll("img");
+            for (let i = 0 ; i<imgs.length ; i++){
+                imgs[i].style.width = '100%';
+           }
+       },
+
   methods: {
      goBack(){
        window.history.go(-1);
@@ -76,10 +90,8 @@ export default {
      /*border-bottom: 1px solid #ddd;*/
    }
    .content {
-      text-indent: 2em;
-     font-weight: normal;
-     margin-bottom: 3/@rem;
      background-color: #fff;
+     color: #696969;
    }
    .wrap {
      min-height: 100%;

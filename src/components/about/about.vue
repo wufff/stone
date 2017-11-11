@@ -5,12 +5,10 @@
     </div>   
     <div class="pu_content">
        <ul class="listUl">
-          <li v-for="item in list" @click.prevent="goDetail(item.id)">
+          <li v-for="item in list">
              <div class="time">{{item.created}}</div>
              <div class="name">{{item.name}}</div>
-             <div class="des" v-html="item.content">
-               
-             </div>
+             <div class="des" v-html="item.content"></div>
           </li>
        </ul>
     </div>
@@ -88,6 +86,7 @@ export default {
        }
        .des {
          padding: 0 15/@rem;
+         color: #696969;
        }
      }
   }

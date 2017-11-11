@@ -4,7 +4,7 @@
              <div @click.prevent="goback" class="bakcSpan">
                   <span class="icon-左"></span>
              </div>
-             <span class="title">咨询</span>
+             <span class="title">咨讯</span>
       </div>   
       <div class="pu_content">
           <ul class="wrap">
@@ -77,11 +77,13 @@ import foot from '@/components/aashare/foot';
             font-size: 14/@rem;
             color:#999;
             margin-left: 15/@rem;
+            position: relative;
+            top:3/@rem;
         }
         .icon {
           position: absolute;
           right: 12/@rem;
-          top:8/@rem;
+          top:11/@rem;
         }
      }
   }

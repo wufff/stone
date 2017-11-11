@@ -15,7 +15,7 @@
       </router-link>
       <router-link to="/seek">
                <div><span class="icon-咨询"></span></div>
-               <div>咨询</div> 
+               <div>咨讯</div> 
       </router-link>
   </div>
 </template>

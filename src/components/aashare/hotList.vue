@@ -88,6 +88,7 @@ import { Spinner } from 'vux';
                           time:1000
                      });
               this.hotData[index].hasLike = true;
+              this.hotData[index].likeCount ++;
                 }else {
              this.$vux.toast.show({
                           text: '已经点过赞',
@@ -179,27 +180,28 @@ import { Spinner } from 'vux';
              text-shadow:2px 2px 4px #fff;
            }
          }
-        .name {
+         .name {
           font-size: 14/@rem;
           color: #545352;
-          padding: 0 10/@rem;
+          padding: 3/@rem 5/@rem 0 5/@rem;
           font-size: 14/@rem;
-          height: 36/@rem;
+          height: 39/@rem;
           display: -webkit-box;
           -webkit-box-orient: vertical;
          -webkit-line-clamp: 2;
           overflow: hidden;
-          padding: 0 5/@rem;
-          padding-bottom: 15/@rem;
-          line-height: 18/@rem;
-          .tag {
+          line-height: 19/@rem;
+
+           .tag {
              background-color: red;
              color: #fff;
              margin-right: 5/@rem;
-             font-size: 12/@rem;
-             padding: 1px 4/@rem 1px 4/@rem; 
+             font-size: 11/@rem;
+             padding: 0 4/@rem 0 4/@rem; 
              border-radius: 5/@rem; 
              display: inline-block;
+             position: relative;
+             top:-3/@rem;
           }
        }  
        .xzBox {

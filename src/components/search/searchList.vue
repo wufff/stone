@@ -10,9 +10,9 @@
         <div class="content">
           <div  class="tabWrap" v-show="liData.length>0" id="tabWrap">
          <tab :line-width="2">
-            <tab-item selected @on-item-click="onItemClickShop">销量</tab-item>
-            <tab-item @on-item-click="onItemClickNew">上新</tab-item>
-            <tab-item @on-item-click="onItemClickPic">精品</tab-item>
+            <tab-item selected @on-item-click="onItemClickShop">精品</tab-item>
+            <tab-item @on-item-click="onItemClickNew">热销</tab-item>
+            <tab-item @on-item-click="onItemClickPic">新品</tab-item>
          </tab>
       </div>
        <div class="forat" 
@@ -168,16 +168,36 @@ function initP(p){
       selectFider(index) {
           this.filterData.selected = index;
           this.cateword =  this.filterData.categories[index].name;
-          this.cateId =  this.filterData.categories[index].cateId;
+          this.cateId =  this.filterData.categories[index].id;
       },
       
       /*确定筛选*/
       sureFider(){
           this.filterPoup = false;
+          this.isBottom = false;
+          this.index = 0;
+          this.isAcive = false;
+          this.page = 1;
+          api.ajax('',
+            "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":this.sort,"pageIndex":this.page,"pageSize":6}
+                ).then(res=>{
+                   console.log(res);
+                  this.liData = res.data.result.products;
+                  this.hasnext = res.data.result.hasNext;
+                  this.page ++;
+                  this.scroll = true;
+                  if(!this.hasnext){
+                    this.isBottom = true;
+                    this.scroll = false ;
+                  }
+               }).catch(()=>{
+                console.log("失败");
+              });  
+
       },
       /*关闭筛选框*/
       closePopus(){
-        this.filterPoup = false;
+          this.filterPoup = false;
       },
 
       /*点赞*/
@@ -192,7 +212,8 @@ function initP(p){
                           type:"text",
                           time:1000
                      });
-              this.hotData[index].hasLike = true;
+              this.liData[index].hasLike = true;
+              this.liData[index].likeCount ++;
                 }else {
              this.$vux.toast.show({
                           text: '已经点过赞',
@@ -219,18 +240,8 @@ function initP(p){
         api.ajax('',
             "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":10,"pageIndex":this.page,"pageSize":6}
                 ).then(res=>{
-                  var data = res.data.result.products;
+                  this.liData = res.data.result.products;
                   this.hasnext = res.data.result.hasNext;
-                  this.liData = data.map( item => {
-                           return {
-                                     id:item.id,
-                                     name: item.title,
-                                     sells: item.salesCount,
-                                     price: item.price,
-                                     s:item.marketPrice,
-                                     imgUrl:item.pic
-                                  }
-                       });
                   this.page ++;
                   this.scroll = true;
                   if(!this.hasnext){
@@ -251,7 +262,7 @@ function initP(p){
         this.page = 1;
         this.sort = 20;
         api.ajax('',
-           "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":10,"pageIndex":this.page,"pageSize":6}
+           "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":20,"pageIndex":this.page,"pageSize":6}
                 ).then(res=>{
                 
                   this.liData = res.data.result.products;
@@ -277,7 +288,7 @@ function initP(p){
         this.page = 1;
         this.sort = 30;
         api.ajax('',
-           "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":10,"pageIndex":this.page,"pageSize":6}
+           "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":30,"pageIndex":this.page,"pageSize":6}
                 ).then(res=>{
                 
                   this.liData = res.data.result.products;
@@ -411,23 +422,25 @@ function initP(p){
        .name {
           font-size: 14/@rem;
           color: #545352;
-          padding: 0 10/@rem;
+          padding: 3/@rem 5/@rem 0 5/@rem;
           font-size: 14/@rem;
-          height: 36/@rem;
+          height: 39/@rem;
           display: -webkit-box;
           -webkit-box-orient: vertical;
          -webkit-line-clamp: 2;
           overflow: hidden;
-          padding: 0 5/@rem;
-          line-height: 18/@rem;
-          .tag {
+          line-height: 19/@rem;
+
+           .tag {
              background-color: red;
              color: #fff;
              margin-right: 5/@rem;
-             font-size: 10/@rem;
-             padding: 1px 4/@rem 1px 4/@rem; 
+             font-size: 11/@rem;
+             padding: 0 4/@rem 0 4/@rem; 
              border-radius: 5/@rem; 
              display: inline-block;
+             position: relative;
+             top:-3/@rem;
           }
        }  
        .xzBox {

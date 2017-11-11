@@ -10,6 +10,10 @@
            </li>
         </ul>
         <div class="info">
+           <div class="name">{{info.name}}</div>
+           <div class="tag">
+              <span v-for="item in info.tags">{{item}}</span>
+            </div>    
            <div v-html="info.desc">
               
            </div>
@@ -99,6 +103,7 @@ import { Lazyload } from 'mint-ui';
           api.ajax('',
          "Goods/Like",{"id":this.$route.query.id}
         ).then(res=>{
+          console.log(res);
          if(res.data.result){
              this.$vux.toast.show({
                           text: '点赞成功',
@@ -153,7 +158,7 @@ import { Lazyload } from 'mint-ui';
      color:#545352;
      .top{
         padding:10/@rem 20/@rem 10/@rem 20/@rem;
-       .name{margin-bottom: 10/@rem;}
+       .name{margin-bottom: 10/@rem; font-size: 14/@rem}
        .tag {
           span {
                  display: inline-block; 
@@ -163,6 +168,7 @@ import { Lazyload } from 'mint-ui';
                  border-radius:8/@rem;
                  font-size: 13/@rem;
                  margin-right: 8/@rem;
+                 font-size: 12/@rem;
 
                }
                 }
@@ -188,6 +194,24 @@ import { Lazyload } from 'mint-ui';
   }
   .info {
      background-color: #fff;
-     padding: 10/@rem;
+     padding: 15/@rem;
+     .name {
+        margin-bottom: 10/@rem;
+        color: #545352;
+     }
+     .tag {
+          margin-bottom: 10/@rem;
+          span {
+                 display: inline-block; 
+                 padding: 2/@rem 10/@rem;
+                 background: red;
+                 color:#fff;
+                 border-radius:8/@rem;
+                 font-size: 13/@rem;
+                 margin-right: 8/@rem;
+                 font-size: 12/@rem;
+
+               }
+             }
   }
 </style>

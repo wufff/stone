@@ -73,7 +73,7 @@ import { Lazyload } from 'mint-ui';
       }
     },
     created:function(){
-       api.ajaxLaoding('',
+       api.ajax('',
          "Goods/Detail",{"id":this.$route.query.id}
         ).then(res=>{
           console.log(res);

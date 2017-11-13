@@ -28,7 +28,7 @@ export default {
     }
   },
   created:function(){
-       api.ajaxLaoding('',
+       api.ajax('',
          "Article/AboutUs",{}
         ).then(res=>{
           console.log(res);

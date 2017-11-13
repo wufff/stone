@@ -32,7 +32,7 @@ import api from '@/api';
       }
     },
     created:function(){
-      api.ajaxLaoding('',
+      api.ajax('',
       "Search/Hot",{}
           ).then(res=>{
             console.log(res);

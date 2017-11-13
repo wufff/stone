@@ -31,7 +31,7 @@ import foot from '@/components/aashare/foot';
     },
 
     created:function(){
-       api.ajaxLaoding('',
+       api.ajax('',
          "Article/List",{"pageIndex":1,"pageSize":20}
         ).then(res=>{
           this.liDate = res.data.result.articles;

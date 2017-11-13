@@ -190,11 +190,7 @@ export default {
           position: absolute;
           left:48/@rem;
           top:6/@rem;
-         
-        
-
-           width: 280/@rem;
-          
+          width: 280/@rem;
           border-radius: 5/@rem;
           font-size: 16/@rem;
           span.icon {margin: 0 3/@rem;position: relative;top:1px;}

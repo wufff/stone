@@ -22,7 +22,7 @@ export default {
     }
   },
   created:function(){
-       api.ajaxLaoding('',
+       api.ajax('',
          "Campaign/Detail",{"id":this.$route.query.id}
         ).then(res=>{
           this.list = res.data.result;

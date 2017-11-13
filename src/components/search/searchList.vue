@@ -127,7 +127,7 @@ function initP(p){
         this.cateId = this.$route.query.cateId;
       }
 
-      api.ajaxLaoding('',
+      api.ajax('',
         "Search/Search",{"keyword":initP(this.keyword),"cateId":initP(this.cateId),"sort":10,"pageIndex":this.page,"pageSize":6}
           ).then(res=>{
             this.liData = res.data.result.products;

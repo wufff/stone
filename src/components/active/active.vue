@@ -28,7 +28,7 @@ export default {
     }
   },
   created:function(){
-       api.ajaxLaoding('',
+       api.ajax('',
          "Campaign/List",{"pageIndex":1,"pageSize":20}
         ).then(res=>{
           console.log(res);

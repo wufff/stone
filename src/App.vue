@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+
+      <router-view></router-view>
+
   </div>
 </template>
 
@@ -129,4 +131,12 @@ export default {
 @import '../static/style/Cvux.less';
 @import '../static/style/style-font.css';
 @import '../static/style/skin.less';
+
+.fade-enter-active, .fade-leave-active {
+  opacity: 1;
+  transition: opacity .3s
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
 </style>

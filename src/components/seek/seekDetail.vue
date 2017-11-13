@@ -25,7 +25,7 @@ import api from '@/api';
     },
 
     created:function(){
-       api.ajaxLaoding('',
+       api.ajax('',
          "Article/Detail",{id:this.$route.query.id}
         ).then(res=>{
           this.data = res.data.result;

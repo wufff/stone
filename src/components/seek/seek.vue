@@ -78,7 +78,7 @@ import foot from '@/components/aashare/foot';
             color:#999;
             margin-left: 15/@rem;
             position: relative;
-            top:4/@rem;
+            top:5/@rem;
         }
         .icon {
           position: absolute;

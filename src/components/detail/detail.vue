@@ -29,13 +29,17 @@
          <div class="bottom clearfix">
             <div class="left" @click="scrollDetail">详情 <i class="fa fa-angle-right"></i></div>
             <div class="right"><span class="icon-浏览"></span> <span class="num"></span>{{info.pv}}</div>
-            <div class="right" @click.prevent="like">
-              <span class="icon-点赞空心" v-show="!info.hasLike"></span>
-              <span class="icon-点赞空心" v-show="info.hasLike" style="color:red"></span>
-             <span class="num">{{info.likeCount}}</span></div>
+            <div class="right" @click.prevent="like" v-show="!info.hasLike">
+                 <span class="icon-点赞空心"></span>
+                 <span class="num">{{info.likeCount}}</span>
+            </div>
+            <div class="right" v-show="info.hasLike">
+              <span class="icon-点赞空心" style="color:red"></span>
+              <span class="num">{{info.likeCount}}</span>
            </div>
+         </div>
       </div>
-    </div>
+  </div>
 </template>
 
 <script type="ecmascript-6">
@@ -110,7 +114,7 @@ import { Lazyload } from 'mint-ui';
                           type:"text",
                           time:1000
                      });
-             
+                 this.info.likeCount ++;
                 }else {
              this.$vux.toast.show({
                           text: '已经点过赞',
@@ -140,7 +144,7 @@ import { Lazyload } from 'mint-ui';
      border-radius: 50%;
      background-color: rgba(0,0,0,0.2);
      color: #fff;
-     line-height: 38px;
+     line-height: 39px;
      text-align: center;
      position: fixed;
      left: 20/@rem;

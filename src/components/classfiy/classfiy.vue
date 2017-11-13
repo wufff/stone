@@ -2,7 +2,7 @@
     <div class="classfiy">
        <div class="searchWarp clearfix">
          <div class="left" @click.prevent="goBack">
-           <i class="fa fa-angle-left"></i>
+           <span class="icon-左"></span>
           </div>
          <div class="inputBox2 right" @click.prevent="goSearch">
             <span class="icon-放大镜 icon"></span>

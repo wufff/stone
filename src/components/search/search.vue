@@ -7,7 +7,7 @@
          <div class="right ss" @click.prevent="sreach">搜索</div>
          <div class="inputBox3 right">
              <span class="icon-放大镜 icon"></span>
-             <input type="text" name="adf" placeholder="海量商品这里搜索" id="inputbox" v-model="msg">
+             <input type="text" name="adf" placeholder="搜索宝贝" id="inputbox" v-model="msg">
              <icon type="cancel" style="color:#999;" v-show="msg" class="dele" @click.native="dele"></icon>
          </div>
       </div>

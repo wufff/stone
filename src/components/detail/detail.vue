@@ -6,7 +6,7 @@
       <div class="datail_content" id="content">
          <ul>
            <li class="page-lazyload-listitem" v-for="item in images">
-             <img v-lazy="item">
+             <img v-lazy="item" @click="wxlookImg(item,images)">
            </li>
         </ul>
         <div class="info">
@@ -44,6 +44,7 @@
 
 <script type="ecmascript-6">
 import api from '@/api';
+import wx from '@/wx';
  function getScrollTop() {  
             var scrollPos;  
             if (window.pageYOffset) {  
@@ -90,6 +91,7 @@ import { Lazyload } from 'mint-ui';
       goBack(){
          window.history.go(-1);
       },
+
       changscroll(){
          var top = getScrollTop();
          var name = document.getElementById("top");
@@ -99,10 +101,12 @@ import { Lazyload } from 'mint-ui';
             name.style.display = 'none';
          }
       },
+
       scrollDetail(){
          var h = document.documentElement.scrollHeight || document.body.scrollHeight;
          window.scrollTo(h,h);
       },
+
       like(){
           api.ajax('',
          "Goods/Like",{"id":this.$route.query.id}
@@ -125,6 +129,11 @@ import { Lazyload } from 'mint-ui';
         }).catch(()=>{
           console.log("失败");
         });
+      },
+
+      wxlookImg(item,images){
+         wx.lookImg(item,images);
+         
       }
     }
   }

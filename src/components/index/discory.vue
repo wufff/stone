@@ -28,15 +28,11 @@
               <img v-lazy="item.image">
               <p>{{item.name}}</p>
             </div>
-           <div @click.prevent="goClassfiy">
-              <img v-lazy="">
-              <p v-text="text2"></p>
-           </div>
         </div>
         <div class="active clearfix" id="box">
             <h5>{{text1}}</h5>
                   <div class="clearfix" id="wrap">
-                    <div id="item" v-for="item in campaigns" @click="goAcitve(item.id)">
+                    <div class="wrap-item" v-for="item in campaigns" @click="goAcitve(item.id)">
                        <img v-lazy="item.image">
                        <p class="name">{{item.title}}</p>
                     </div> 
@@ -58,6 +54,7 @@ import { Swiper, SwiperItem } from 'vux';
 import foot from '@/components/aashare/foot';
 import hot from  '@/components/aashare/hotList';
 import navSwipe from '../../../static/js/swipe.js';
+import mywx from '@/wx';
 export default {
   name: 'hello',
   data () {
@@ -88,22 +85,21 @@ export default {
                });
           this.categories = res.data.result.categories;
           this.campaigns = res.data.result.campaigns;
-          console.log(this.campaigns);
           this.text1 = "热门活动";
           this.text2="所有宝贝";
         }).catch(()=>{
           console.log("失败");
         });
+       mywx.share();
     },
 
    updated: function (){
           var num = this.campaigns.length;
-          var item = document.querySelector("#item");
           var box = document.querySelector("#box");
           var wrap = document.querySelector("#wrap");
-          var Width = document.querySelector("#item").offsetWidth;
+          var Width = document.querySelectorAll(".wrap-item")[0].offsetWidth;
           wrap.style.width = num*Width +3+"px";      
-          navSwipe(box,wrap); 
+          navSwipe(box,wrap);
        },
        
   methods:{
@@ -218,7 +214,7 @@ export default {
   }
   .classfiy {
      > div {
-       width: 16.666%;
+       width: 14.2222%;
        float: left;
        border-right:1px solid #f4f4f4; 
        background-color: #fff;
@@ -251,7 +247,7 @@ export default {
       #wrap {
          position: relative;
          width: 280%;
-         #item {
+         .wrap-item {
             width: 187/@rem;
             height: 187/@rem;
             float: left;

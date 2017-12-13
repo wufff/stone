@@ -197,7 +197,7 @@ import { Spinner } from 'vux';
              color: #fff;
              margin-right: 5/@rem;
              font-size: 11/@rem;
-             padding: 1/@rem 4/@rem 0 4/@rem; 
+             padding: 2/@rem 4/@rem 1/@rem 4/@rem; 
              border-radius: 5/@rem; 
             
              position: relative;
